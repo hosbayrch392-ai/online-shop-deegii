@@ -1,74 +1,100 @@
+"use client";
+import { useState } from "react";
+
+const products = [
+  { id: 1, name: "Шорт", price: 45000, image: "/short.png" },
+  { id: 2, name: "Юүпэк", price: 65000, image: "/yupek.png" },
+  { id: 3, name: "Өмд", price: 75000, image: "/omd.png" },
+  { id: 4, name: "Потволк", price: 35000, image: "/potkolk.png" },
+  { id: 5, name: "Цамц", price: 55000, image: "/tsamts.png" },
+  { id: 6, name: "Палааж", price: 85000, image: "/palaaj.png" },
+  { id: 7, name: "Тодруур хувцас", price: 80000, image: "/toduur.png" },
+];
+
 export default function Home() {
+  const [cart, setCart] = useState<any[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const addToCart = (product: any) => setCart([...cart, product]);
+  const removeFromCart = (index: number) => {
+    const newCart = cart.filter((_, i) => i !== index);
+    setCart(newCart);
+  };
+  const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+
   return (
-    <main className="min-h-screen bg-pink-50 p-6 flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-pink-600 mb-2">Deegii Fashion</h1>
-      <p className="text-gray-600 mb-8">
-        Хамгийн сүүлийн үеийн загварын чиг хандлага
-      </p>
-
-      {/* Барааны карт */}
-      <div className="bg-white p-4 rounded-2xl shadow-xl w-full max-w-sm">
-        <img
-          src="/dress1.png"
-          alt="Улаан даашинз"
-          className="w-full h-64 object-contain rounded-xl mb-4"
-        />
-
-        <h2 className="text-xl font-semibold text-gray-800">
-          Зун цагийн даашинз
-        </h2>
-        <p className="text-pink-500 font-bold text-lg mt-1 mb-4">120,000 ₮</p>
-
-        <a
-          href="https://wa.me/97699112233?text=Сайн байна уу? Би энэ даашинзыг сонирхож байна."
-          target="_blank"
-          className="block text-center w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition font-bold"
+    <main className="min-h-screen bg-gray-100 py-12 px-4">
+      <div className="fixed top-5 right-5 z-50">
+        <button
+          onClick={() => setIsCartOpen(true)}
+          className="bg-pink-500 text-white p-4 rounded-full shadow-lg"
         >
-          WhatsApp-аар захиалах
-        </a>
-        <form
-          action="https://api.web3forms.com/submit"
-          method="POST"
-          className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8 space-y-4"
-        >
-          {/* Энэ хэсэгт чиний түлхүүр код байна */}
-          <input
-            type="hidden"
-            name="access_key"
-            value="731e089d-5238-4e5c-a251-40f038395952"
-          />
+          🛒 Сагс ({cart.length})
+        </button>
+      </div>
 
-          <h3 className="text-xl font-bold text-gray-800">Захиалга өгөх</h3>
+      {isCartOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex justify-end">
+          <div className="bg-white w-full max-w-sm h-full p-6 overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Таны сагс</h2>
+            {cart.map((item, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center mb-2 border-b pb-2"
+              >
+                <span>{item.name}</span>
+                <div className="flex items-center gap-4">
+                  <span>{item.price.toLocaleString()} ₮</span>
+                  <button
+                    onClick={() => removeFromCart(index)}
+                    className="text-red-500 font-bold"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+            ))}
+            <div className="mt-6 border-t pt-4">
+              <p className="text-xl font-bold">
+                Нийт: {totalPrice.toLocaleString()} ₮
+              </p>
+              <button
+                onClick={() => setIsCartOpen(false)}
+                className="mt-4 w-full bg-gray-200 p-2 rounded-xl"
+              >
+                Хаах
+              </button>
+              <button className="mt-2 w-full btn-order">ЗАХИАЛАХ</button>
+            </div>
+          </div>
+        </div>
+      )}
 
-          <input
-            type="text"
-            name="name"
-            placeholder="Таны нэр"
-            required
-            className="w-full p-3 border rounded-lg"
-          />
-          <input
-            type="text"
-            name="phone"
-            placeholder="Утасны дугаар"
-            required
-            className="w-full p-3 border rounded-lg"
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Хүргэлтийн хаяг"
-            required
-            className="w-full p-3 border rounded-lg"
-          />
-
-          <button
-            type="submit"
-            className="w-full bg-pink-500 text-white py-3 rounded-lg hover:bg-pink-600 transition font-bold"
-          >
-            Захиалах
-          </button>
-        </form>
+      <h1 className="text-4xl font-bold text-center mb-12 gradient-text">
+        deegii-online-shop
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        {products.map((product) => (
+          <div key={product.id} className="product-card">
+            <div className="w-full h-64 bg-gray-200 rounded-2xl mb-6 overflow-hidden image-hover">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <h2 className="text-xl font-bold">{product.name}</h2>
+            <p className="text-lg text-pink-600 font-semibold mb-6">
+              {product.price.toLocaleString()} ₮
+            </p>
+            <button
+              onClick={() => addToCart(product)}
+              className="btn-order w-full"
+            >
+              САГСАНД НЭМЭХ
+            </button>
+          </div>
+        ))}
       </div>
     </main>
   );
