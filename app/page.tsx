@@ -2,13 +2,14 @@
 import { useState } from "react";
 
 const products = [
-  { id: 1, name: "Шорт", price: 45000, image: "/short.png" },
-  { id: 2, name: "Юүпэк", price: 65000, image: "/yupek.png" },
-  { id: 3, name: "Өмд", price: 75000, image: "/omd.png" },
-  { id: 4, name: "Потволк", price: 35000, image: "/potkolk.png" },
-  { id: 5, name: "Цамц", price: 55000, image: "/tsamts.png" },
-  { id: 6, name: "Палааж", price: 85000, image: "/palaaj.png" },
-  { id: 7, name: "Тодруур хувцас", price: 80000, image: "/toduur.png" },
+  { id: 1, name: "Шорт", price: 45000, image: "/short.jpg" },
+  { id: 2, name: "Өмд", price: 75000, image: "/omd.jpg" },
+  { id: 3, name: "Потволк", price: 35000, image: "/potvolk.jpg" },
+  { id: 4, name: "Палааж", price: 85000, image: "/palaaj.jpg" },
+  { id: 5, name: "Цамц", price: 55000, image: "/tsamts.jpg" },
+  { id: 6, name: "Гадуур хувцас", price: 95000, image: "/gaduur.jpg" },
+  { id: 7, name: "Юүпка", price: 65000, image: "/yupek.jpg" }, // Энд заслаа
+  { id: 8, name: "Топ", price: 30000, image: "/top.jpg" },
 ];
 
 export default function Home() {
